@@ -40,11 +40,10 @@ func (pl *ParkingLot) ParkVehicle(vehicle Vehicle) (ParkingTicket, error) {
 	pl.ParkingSlots[slotNumber-1].Vehicle = vehicle
 	pl.Available--
 
-	ticket := ParkingTicket{
-		EntryTime:  time.Now(),
-		SlotNumber: slotNumber,
-		Vehicle:    vehicle,
-	}
+	ticket := NewEmptyParkingTicket()
+	ticket.SetEntryTime(time.Now())
+	ticket.SetSlotNumber(slotNumber)
+	ticket.SetVehicle(vehicle)
 
 	return ticket, nil
 }
@@ -64,12 +63,12 @@ func (pl *ParkingLot) findAvailableSlot() (int, error) {
 // It marks the slot as vacant and increments the available slots count.
 // Returns an error if the ticket is invalid.
 func (pl *ParkingLot) ExitParkingLot(ticket ParkingTicket) error {
-	if ticket.SlotNumber <= 0 || ticket.SlotNumber > pl.Capacity {
+	if ticket.GetSlotNumber() <= 0 || ticket.GetSlotNumber() > pl.Capacity {
 		return errors.New("invalid slot number")
 	}
 
-	slot := &pl.ParkingSlots[ticket.SlotNumber-1]
-	if !slot.Occupied || slot.Vehicle.LicensePlate != ticket.Vehicle.LicensePlate {
+	slot := &pl.ParkingSlots[ticket.GetSlotNumber()-1]
+	if !slot.Occupied || slot.Vehicle.GetLicensePlate() != ticket.GetVehicle().GetLicensePlate() {
 		return errors.New("invalid parking ticket")
 	}
 

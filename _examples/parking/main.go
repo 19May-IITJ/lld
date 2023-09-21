@@ -10,7 +10,7 @@ func main() {
 	vehicle1 := NewVehicle(
 		"ABC123",
 		"Red")
-		
+
 	ticket1, err := parkingLot.ParkVehicle(vehicle1)
 	if err != nil {
 		fmt.Println(err)
@@ -25,7 +25,9 @@ func main() {
 		}
 	}
 
-	vehicle2 := Vehicle{LicensePlate: "XYZ789", Color: "Blue"}
+	vehicle2 := NewVehicle(
+		"XYZ789",
+		"Blue")
 	ticket2, err := parkingLot.ParkVehicle(vehicle2)
 	if err != nil {
 		fmt.Println(err)
